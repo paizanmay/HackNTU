@@ -236,7 +236,7 @@ function receivedMessage(event) {
   var messageText = message.text;
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
-
+  console.log("💖 ");
   if (isEcho) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s", 
@@ -247,7 +247,13 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    if (quickReplyPayload === "DEVELOPER_DEFINED_PAYLOAD_FOR_ADJUST_SETTING") {
+      sendTextMessage(senderID, "調三小");
+    } else if (quickReplyPayload === "DEVELOPER_DEFINED_PAYLOAD_FOR_PAY_RENT") {
+      sendTextMessage(senderID, "不給你繳勒");
+      sendTextMessage(senderID, "❤️");
+    }
+    
     return;
   }
 
@@ -307,6 +313,15 @@ function receivedMessage(event) {
 
       case 'account linking':
         sendAccountLinking(senderID);
+        break;
+
+      case 'adjust':
+      case 'Adjust':
+        sendAdjustSetting(senderID);
+        break;
+
+      case 'fucking who':
+        sendTextMessage(senderID, "你問我我問誰呢？");
         break;
 
       default:
@@ -702,17 +717,17 @@ function sendQuickReply(recipientId) {
       quick_replies: [
         {
           "content_type":"text",
-          "title":"Action",
+          "title":"ActionActionAction",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
         },
         {
           "content_type":"text",
-          "title":"Comedy",
+          "title":"ComedyComedyComedy",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
         },
         {
           "content_type":"text",
-          "title":"Drama",
+          "title":"DramaDramaDrama",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
         }
       ]
@@ -837,10 +852,42 @@ app.post('/someRoute', function(req, res) {
   var data = req.body;
   console.log(data);
   var sender_id = data["sender_id"];
-  var url = data["url"];
-  sendTextMessage(sender_id, url);
+  var type = data["type"];
+  var content = data["content"];
+
+  if (type === "text") {
+    sendTextMessage(sender_id, content);
+  } else if (type === "question") {
+    sendTextMessage(sender_id, content);
+  }
   res.sendStatus(201);
 });
+
+function sendAdjustSetting(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "你是要調三小？",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"我要繳款",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PAY_RENT"
+        },
+        {
+          "content_type":"text",
+          "title":"我要調整設定",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_ADJUST_SETTING"
+        }
+      ]
+    }
+  };
+
+  callSendAPI(messageData);
+}
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid 

@@ -26,6 +26,7 @@
         line-height: 480px;
         font-weight: lighter;
         text-align: center;
+        overflow: auto;
     }
     
     #ic-slideview-demo__cell1 {
@@ -57,6 +58,20 @@
                                         </span>
                                         <span class="ic-list__item-label">
                                             {$ room.address $}
+                                        </span>
+                                    </span>
+                                    <span class="ic-list__item-right">
+                                        <i class="ic-icon ic-icon-next"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="ic-list__item" ng-click="createRoom()">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            新增房間
+                                        </span>
+                                        <span class="ic-list__item-label">
                                         </span>
                                     </span>
                                     <span class="ic-list__item-right">
@@ -121,6 +136,18 @@
                                 <div class="ic-list__item-container">
                                     <span class="ic-list__item-body">
                                         <span class="ic-list__item-label">
+                                            房間名稱
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            <input type="text" ng-model="roomDetail.name" ng-blur="handleUpdate(roomDetail)">
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="ic-list__item">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
                                             房租
                                         </span>
                                         <span class="ic-list__item-value">
@@ -156,6 +183,22 @@
                         </ul>
                     </div>
                 </section>
+
+                <section class="ic-section">
+                    <h3 class="ic-section__title">產生QRCode</h3>
+                
+                    <div class="ic-section__container">
+                        <ul class="ic-list ic-list--setting">
+                            <li class="ic-list__item">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <div id="room_qrcode"></div>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
             </div>
 
 
@@ -163,5 +206,9 @@
 
         </div>
     </div>
-<script src="{% static 'js/manage_room.js'%}"></script>  
+<script src="{% static 'js/qrcode.min.js'%}"></script>
+<script src="{% static 'js/manage_room.js'%}"></script>
+<script type="text/javascript">
+    var HOST = '{{host}}'
+</script>
 </body>

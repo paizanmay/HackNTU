@@ -38,10 +38,24 @@ manageRoom.controller('ManageRoomCtrl', function($scope, RoomResource) {
 		$scope.currentPage = page;
 	}
 
+	$scope.createRoom = function() {
+		var roomData = {
+			'name': '房間名稱',
+			'rental': 0,
+			'landlord_user': $scope.roomList[0].landlord_user
+		};
+		var room = new RoomResource(roomData)
+		room.$save(function(response){
+			$scope.roomList.push(response);
+		});
+	}
+
 	$scope.detailPage = function(detailUUID) {
 		RoomResource.get({'uuid': detailUUID}).$promise.then(function(response){
 			$scope.roomDetail = response;
 			$scope.changePage(1);
+			$("#room_qrcode").html("");
+			new QRCode(document.getElementById("room_qrcode"), HOST + "/tenant/login_user/?room_id=" + detailUUID);
 		});
 	}
 

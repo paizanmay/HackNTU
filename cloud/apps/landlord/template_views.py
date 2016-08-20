@@ -23,7 +23,11 @@ class login_require(object):
 
 @login_require
 def manage_room(request):
-    return render_to_response("landlord/manage_room.html")
+    return_data = {
+        "host": request.META['HTTP_HOST']
+    }
+    print('testestse')
+    return render_to_response("landlord/manage_room.html", return_data)
 
 @csrf_exempt
 def login_user(request):

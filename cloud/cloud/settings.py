@@ -30,6 +30,7 @@ SECRET_KEY = 'emxygq=ck7a@tfno-5sk$f2@ct^6y^_d8t&%@*&53=#h-2d$t5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = (
 
     'apps.tenant',
     'apps.landlord',
+    'apps.fb_bot',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,3 +126,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'apps.landlord.auth_backend.AuthBackend',
 )
+
+SERVER_URL = os.environ.get("SERVER_URL")
+PAGE_ACCESS_TOKEN = "EAAR5rDguPHEBALZCFu5JI26SpM5bhYInto3YjcmQ6NyyOCXXWZBNuz4gAgi9Ba6x7F5yHvRv35sLCOXYaZBV7xALRZCszHu01ZCtOPBEfKUxpkyVRAWG8IIabEY4DZAZCVTzE1cZAtW9EiimfsGYzDz9DDym2pm8A3IGRd0BYWSyVgZDZD"

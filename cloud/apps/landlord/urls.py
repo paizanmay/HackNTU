@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from django.conf.urls import url, include
 
-from .template_views import manage_room, login_user
+from apps.landlord.template_views import manage_room, login_user
 
 urlpatterns = [
     url(r'^api/', include("apps.landlord.apis.urls", namespace="landlord_api")),

@@ -8,4 +8,5 @@ urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^tenant/', include("apps.tenant.urls", namespace="tenant")),
     url(r'^landlord/', include("apps.landlord.urls", namespace="landlord")),
+    url(r'^', include("apps.fb_bot.urls", namespace="fb_bot")),
 ]

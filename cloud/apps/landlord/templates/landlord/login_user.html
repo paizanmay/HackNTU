@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+<title>房東登入</title>
+
+{% load staticfiles %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.css">
+<link rel="stylesheet" href="//ichef.github.io/iC-framework/dist/css/ic-framework.min.css">
+
+</head>
+
+<body id="main-view">
+<form id="login_form" action="/landlord/login_user/" method="POST">
+    <section class="ic-section">
+        <h3 class="ic-section__title">登入</h3>
+    
+        <div class="ic-section__container">
+            <ul class="ic-list ic-list--setting">
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                使用者名稱
+                            </span>
+                            <span class="ic-list__item-value">
+                                <input class="ic-input" type="text" name="username" placeholder="使用者名稱"/>
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                使用者密碼
+                            </span>
+                            <span class="ic-list__item-value">
+                                <input class="ic-input" type="password" name="password" placeholder="使用者密碼"/>
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="ic-section__container">
+            <ul class="ic-list ic-list--setting">
+                <li class="ic-list__item" onclick="loginUser()">
+                    <a class="ic-list__item-container" href="#">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                登入
+                            </span>
+                        </span>
+                        <span class="ic-list__item-right">
+                            <i class="ic-icon ic-icon-next"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</form>
+    
+<script type="text/javascript">
+function loginUser() {
+    $("#login_form").submit();
+}
+
+$(document).ready(function(){
+
+});
+</script>
+
+</body>

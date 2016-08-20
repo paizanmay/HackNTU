@@ -4,7 +4,14 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from rest_framework import serializers
 
 from apps.tenant.models import TenantUser
-from apps.landlord.apis.serializers import RoomSerializer
+from apps.landlord.models import Room
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Room
+        fields = ("uuid", "rental", "name", "address", )
 
 
 class TenantUserSerializer(serializers.ModelSerializer):
@@ -12,5 +19,11 @@ class TenantUserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TenantUser
-        fields = ("uuid", "live_room", )
+        fields = ("uuid", "name", "live_room", )
+
+class TenantUserSimpleSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = TenantUser
+        fields = ("uuid", "name", )
 

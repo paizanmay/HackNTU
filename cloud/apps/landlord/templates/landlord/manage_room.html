@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" ng-app="manageRoom">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+<title>房東管理房間</title>
+
+{% load staticfiles %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-resource.min.js"></script>
+<link rel="stylesheet" href="//ichef.github.io/iC-framework/dist/css/ic-framework.min.css">
+<style>
+    .ic-slideview-demo__viewport {
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(0, 0, 0, .3);
+    }
+    
+    .ic-slideview-demo__cell {
+        /*color: white;*/
+        font-size: 200%;
+        line-height: 480px;
+        font-weight: lighter;
+        text-align: center;
+    }
+    
+    #ic-slideview-demo__cell1 {
+        background-color: lightseagreen;
+    }
+    
+    #ic-slideview-demo__cell2 {
+        background-color: steelblue;
+    }
+</style>
+</head>
+
+<body ng-controller="ManageRoomCtrl">
+    <div class="ic-slideview-demo__viewport">
+        <div class="ic-slideview">
+            <div id="ic-slideview-demo__cell1" class="ic-slideview-demo__cell ic-slideview__cell" ng-class="{'ic-slideview__cell--prev':currentPage==1, 'ic-slideview__cell--active':currentPage==0}">
+                <div class="ic-header">
+                    <h1 class="ic-header__title">房間管理列表</h1>
+                </div>
+
+                <section class="ic-section">
+                    <div class="ic-section__container">
+                        <ul class="ic-list ic-list--setting">
+                            <li class="ic-list__item" ng-repeat="room in roomList" ng-click="detailPage(room.uuid)">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            {$ room.name $}
+                                        </span>
+                                        <span class="ic-list__item-label">
+                                            {$ room.address $}
+                                        </span>
+                                    </span>
+                                    <span class="ic-list__item-right">
+                                        <i class="ic-icon ic-icon-next"></i>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+            </div>
+
+            <div id="ic-slideview-demo__cell2" class="ic-slideview-demo__cell ic-slideview__cell" ng-class="{'ic-slideview__cell--next':currentPage==0, 'ic-slideview__cell--active':currentPage==1}">
+                <div class="ic-header">
+                    <h1 class="ic-header__title">房間詳細資訊</h1>
+                
+                    <div class="ic-header__left" ng-click="changePage(0)">
+                        <button class="ic-header__btn">
+                            <div class="ic-text-group ic-text-group--center-align">
+                                <i class="ic-icon ic-icon-prev ic-text-group__icon"></i>
+                                <span class="ic-text-group__text">Back</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="ic-header__right">
+                        <button class="ic-header__btn">
+                            <div class="ic-text-group ic-text-group--center-align">
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <section class="ic-section" ng-if="roomDetail.tenant_user.length>0">
+                    <h3 class="ic-section__title">房客</h3>
+                
+                    <div class="ic-section__container">
+                        <ul class="ic-list ic-list--setting">
+                            <li class="ic-list__item" ng-repeat="tenant in roomDetail.tenant_user">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            第{$ $index + 1 $}位房客
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            {$ tenant.name $}
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="ic-section">
+                    <h3 class="ic-section__title">繳費資訊</h3>
+                
+                    <div class="ic-section__container">
+                        <ul class="ic-list ic-list--setting">
+                            <li class="ic-list__item">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            房租
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            <input type="number" ng-model="roomDetail.rental" ng-blur="handleUpdate(roomDetail)">
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="ic-list__item">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            通知日期(每月幾號)
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            <input type="number" ng-model="roomDetail.notification_date" ng-blur="handleUpdate(roomDetail)">
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="ic-list__item">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            繳費截止日期(每月幾號)
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            <input type="number" ng-model="roomDetail.deadline_date" ng-blur="handleUpdate(roomDetail)">
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+
+
+
+
+        </div>
+    </div>
+<script src="{% static 'js/manage_room.js'%}"></script>  
+</body>

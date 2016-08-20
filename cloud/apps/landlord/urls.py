@@ -3,10 +3,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from django.conf.urls import url, include
 
-from .template_views import register_room, login_user
+from .template_views import manage_room, login_user
 
 urlpatterns = [
-    url(r'^api/', include("apps.tenant.apis.urls", namespace="tenant_api")),
-    url(r'^register_room/', register_room, name="register_room_page"),
+    url(r'^api/', include("apps.landlord.apis.urls", namespace="landlord_api")),
+    url(r'^manage_room/', manage_room, name="manage_room_page"),
     url(r'^login_user/', login_user, name="login_user_page")
 ]

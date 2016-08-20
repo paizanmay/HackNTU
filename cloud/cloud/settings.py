@@ -117,3 +117,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# iCHEF LOGIN AUTH CONFIGURATION
+AUTH_USER_MODEL = 'landlord.LandlordUser'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'apps.landlord.auth_backend.AuthBackend',
+)

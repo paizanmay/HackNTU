@@ -14,6 +14,7 @@ def generate_uuid():
 class TenantUser(AbstractBaseUser):
     uuid = models.CharField(max_length=40L, default=generate_uuid)
     username = models.CharField(unique=True, max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
     fb_id = models.CharField(max_length=100L, db_index=True, unique=True, null=True)
     sender_id = models.CharField(max_length=50L, db_index=True, null=True)
     profile_img_id = models.CharField(max_length=100L, db_index=True, null=True)

@@ -53,9 +53,11 @@ class RoomOrder(models.Model):
 
 class RoomOrderPart(models.Model):
     uuid = models.CharField(max_length=36L, default=generate_uuid)
-    room = models.ForeignKey("RoomOrder", related_name='room_order_part')
+    room_order = models.ForeignKey("RoomOrder", related_name='room_order_part')
     tenant = models.ForeignKey("tenant.TenantUser", related_name="room_order_part")
     amount = models.IntegerField(default=0)
+    card_number = models.CharField(max_length=20L, null=True)
+    is_paid = models.BooleanField(default=False)
 
     class Meta:
         app_label = "landlord"

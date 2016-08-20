@@ -2,9 +2,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
 
 from apps.tenant.models import TenantUser
-from apps.landlord.models import Room
+from apps.landlord.models import *
 
 def register_room(request):
     user_id = request.GET.get("user_id")
@@ -29,3 +30,36 @@ def login_user(request):
 
     return_data = {"room_id": room_id}
     return render_to_response("tenant/login_user.html", return_data)
+
+def tenant_pay_order_page(request):
+    order_part_uuid = request.GET.get("order_part_uuid")
+    order_part = RoomOrderPart.objects.get(uuid=order_part_uuid)
+
+    return_data = {
+        "amount": order_part.amount,
+        "user_name": order_part.tenant.name,
+        "deadline": str(order_part.room_order.deadline.date()),
+        "order_part_uuid": order_part_uuid
+    }
+    return render_to_response("tenant/tenant_pay_order.html", return_data)
+
+@csrf_exempt
+def tenant_pay_order_success(request):
+    order_part_uuid = request.POST.get("order_part_uuid")
+    card_number = request.POST.get("card_number")
+    order_part = RoomOrderPart.objects.get(uuid=order_part_uuid)
+    order_part.is_paid = True
+    order_part.card_number = card_number[:4] + "********" + card_number[-4:]
+    order_part.save()
+
+    return_data = {
+        "amount": order_part.amount,
+        "user_name": order_part.tenant.name,
+        "card_number": order_part.card_number,
+        "order_part_uuid": order_part_uuid
+    }
+
+    return render_to_response("tenant/tenant_pay_order_success.html", return_data)
+
+
+

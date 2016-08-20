@@ -1,0 +1,42 @@
+version: '2'
+services:
+  # db_mysql:
+  #   image: docker-hub.ichef.tw:5043/ichef/mysql:5.6
+  #   ports:
+  #     - "3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ichefitco
+  #     MYSQL_DATABASE: ichef_dev
+  #     MYSQL_USER: admin
+  #     MYSQL_PASSWORD: ichefitco
+  web:
+    build: .
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    # depends_on:
+    #   - db_mysql
+    #   - db_mongo
+    # links:
+    #   - db_mysql
+    #   - db_mongo
+    environment:
+      SERVER_URL: "hackntu59mgmt.eastus.cloudapp.azure.com"
+      # DB_DEFAULT_HOST: "db_mysql"
+      # MONGODB_DEFAULT_HOST: "db_mongo"
+      # REPORT_DB_DEFAULT_HOST: "db_mysql"
+      # DB_DEFAULT_USER: "root"
+      # DB_DEFAULT_NAME: "ichef_dev"
+      # REPORT_DB_DEFAULT_NAME: "ichef_dev"
+  # db_mongo:  
+  #   image: mongo:2.6.5
+  #   volumes:
+  #     - /data/db
+  #   ports:
+  #     - "27017"
+  #   command: --smallfiles
+    

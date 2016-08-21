@@ -55,7 +55,7 @@ manageRoom.controller('ManageRoomCtrl', function($scope, RoomResource) {
 			$scope.roomDetail = response;
 			$scope.changePage(1);
 			$("#room_qrcode").html("");
-			new QRCode(document.getElementById("room_qrcode"), HOST + "/tenant/login_user/?room_id=" + detailUUID);
+			new QRCode(document.getElementById("room_qrcode"), "http://" + HOST + "/tenant/login_user/?room_id=" + detailUUID);
 		});
 	}
 

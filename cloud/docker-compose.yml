@@ -25,7 +25,7 @@ services:
     #   - db_mysql
     #   - db_mongo
     environment:
-      SERVER_URL: "hackntu59mgmt.eastus.cloudapp.azure.com"
+      SERVER_URL: "http://hackntu20166878.cloudapp.net:8000"
       # DB_DEFAULT_HOST: "db_mysql"
       # MONGODB_DEFAULT_HOST: "db_mongo"
       # REPORT_DB_DEFAULT_HOST: "db_mysql"

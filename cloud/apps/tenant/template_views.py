@@ -62,4 +62,6 @@ def tenant_pay_order_success(request):
     return render_to_response("tenant/tenant_pay_order_success.html", return_data)
 
 
+def create_order_page(request):
 
+    return render_to_response("tenant/create_order.html")

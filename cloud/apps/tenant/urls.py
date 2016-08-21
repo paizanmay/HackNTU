@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^login_user/', login_user, name="login_user_page"),
     url(r'^tenant_pay_order_page/$', tenant_pay_order_page, name="tenant_pay_order_page"),
     url(r'^tenant_pay_order_success/$', tenant_pay_order_success, name="tenant_pay_order_success"),
+    url(r'^create_order_page/$', create_order_page, name="create_order_page"),
 ]

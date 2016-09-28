@@ -10,7 +10,8 @@ services:
   #     MYSQL_USER: admin
   #     MYSQL_PASSWORD: ichefitco
   web:
-    build: .
+    # build: .
+    image: paizanmay/pebak:latest
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
@@ -25,7 +26,7 @@ services:
     #   - db_mysql
     #   - db_mongo
     environment:
-      SERVER_URL: "http://hackntu20166878.cloudapp.net:8000"
+      SERVER_URL: "http://52.192.99.221:8000"
       # DB_DEFAULT_HOST: "db_mysql"
       # MONGODB_DEFAULT_HOST: "db_mongo"
       # REPORT_DB_DEFAULT_HOST: "db_mysql"
@@ -39,4 +40,3 @@ services:
   #   ports:
   #     - "27017"
   #   command: --smallfiles
-    

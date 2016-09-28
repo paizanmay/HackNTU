@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from apps.tenant.models import TenantUser
-from apps.tenant.apis.serializers import TenantUserSerializer
+from apps.tenant.apis.serializers import TenantUserSerializer, TenantUserSimpleSerializer
 from apps.landlord.models import Room
 
 
@@ -26,10 +26,9 @@ class RegisterRoom(APIView):
 class RegisterTenantUser(APIView):
 
     def post(self, request):
-        fb_id = request.data.get("fb_id")
-        user = TenantUser.objects.create()
-        user.fb_id = fb_id
+        name = request.data.get("name")
+        user = TenantUser.objects.create(name=name)
         user.save()
 
-        serializer = TenantUserSerializer(tenant_user)
+        serializer = TenantUserSimpleSerializer(user)
         return Response(data=serializer.data)

@@ -1,6 +1,6 @@
 {
-    "appSecret": "adc9ac4ba72386cde65a2204e15ecb21",
-    "pageAccessToken": "EAAR5rDguPHEBALZCFu5JI26SpM5bhYInto3YjcmQ6NyyOCXXWZBNuz4gAgi9Ba6x7F5yHvRv35sLCOXYaZBV7xALRZCszHu01ZCtOPBEfKUxpkyVRAWG8IIabEY4DZAZCVTzE1cZAtW9EiimfsGYzDz9DDym2pm8A3IGRd0BYWSyVgZDZD",
+    "appSecret": "70186dda3e01747bdc83de8eb15b62dd",
+    "pageAccessToken": "EAARbX2lVdesBAK4cLqF3M7XpRgxvqsasZCF4fHMStvM0xnEez9tq77ES1FIx4mjfwvXq8aJJGReJleGnbfpdAQwBHGoAr6HbIeNzwy6IaKdOq3fAXed2ZCjZCwOwCeBeyX6I0rJj0RDXb6sJVmhSZA6DzQbpACoseH5EMc9kswZDZD",
     "validationToken": "my_rent_is_my_pretty_password",
-    "serverURL": "https://16624c41.ngrok.io"
+    "serverURL": "https://ddf2dcc9.ngrok.io"
 }

@@ -30,7 +30,7 @@ SECRET_KEY = 'emxygq=ck7a@tfno-5sk$f2@ct^6y^_d8t&%@*&53=#h-2d$t5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+# TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'apps.tenant',
     'apps.landlord',
     'apps.fb_bot',
+    'cloud.middleware',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -127,5 +128,9 @@ AUTHENTICATION_BACKENDS = (
     'apps.landlord.auth_backend.AuthBackend',
 )
 
-SERVER_URL = os.environ.get("SERVER_URL")
-PAGE_ACCESS_TOKEN = "EAAR5rDguPHEBALZCFu5JI26SpM5bhYInto3YjcmQ6NyyOCXXWZBNuz4gAgi9Ba6x7F5yHvRv35sLCOXYaZBV7xALRZCszHu01ZCtOPBEfKUxpkyVRAWG8IIabEY4DZAZCVTzE1cZAtW9EiimfsGYzDz9DDym2pm8A3IGRd0BYWSyVgZDZD"
+MIDDLEWARE_CLASSES = (
+    "cloud.middleware.ProcessExceptionMiddleware",
+)
+
+SERVER_URL = "https://461ff1e9.ngrok.io"#os.environ.get("SERVER_URL")
+PAGE_ACCESS_TOKEN = "EAARbX2lVdesBAK4cLqF3M7XpRgxvqsasZCF4fHMStvM0xnEez9tq77ES1FIx4mjfwvXq8aJJGReJleGnbfpdAQwBHGoAr6HbIeNzwy6IaKdOq3fAXed2ZCjZCwOwCeBeyX6I0rJj0RDXb6sJVmhSZA6DzQbpACoseH5EMc9kswZDZD"

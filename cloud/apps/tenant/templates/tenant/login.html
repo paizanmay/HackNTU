@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+<title>房客入住房間</title>
+
+{% load staticfiles %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" href="//ichef.github.io/iC-framework/dist/css/ic-framework.min.css">
+</head>
+
+<body>
+    <section class="ic-section">
+        <h3 class="ic-section__title">使用者資訊</h3>
+    
+        <div class="ic-section__container">
+            <ul class="ic-list ic-list--setting">
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                名稱
+                            </span>
+                            <span class="ic-list__item-value">
+                                <input class="ic-input" type="text" name="name" id="name">
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                <button class="ic-btn ic-btn--blue" onclick="submit()">確認</button>
+                            </span>
+                            <span class="ic-list__item-value">
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+
+<script type="text/javascript">
+function submit() {
+    var name = $("#name").val();
+    $.ajax({
+        url: "/tenant/api/register_user",
+        method: "POST",
+        data: {name: name}
+    })
+    .done(function(response) {
+        window.location.href="{{redirect_uri}}" + "&authorization_code=" + response.uuid;
+    });
+}
+
+</script>
+
+
+

@@ -83,7 +83,7 @@
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(user_data) {
             console.log('Successful login for: ' + user_data.name);
-            window.location.href = '/tenant/register_room?user_id=' + user_data.id + '&user_name=' + user_data.name + '&room_id={{room_id}}';
+            window.location.href = '/tenant/register_user?user_id=' + user_data.id + '&user_name=' + user_data.name + '&account_linking_token={{account_linking_token}}';
         });
     }
 
@@ -99,12 +99,11 @@
     the FB.login() function when clicked.
 -->
 
-<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button> -->
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
 
     <div id="status">
     </div>
-
     <button class="ic-btn ic-btn--white ic-btn--large ic-btn--block" onclick="login()">FB LOGIN</button>
 
 </body>

@@ -14,4 +14,5 @@ urlpatterns = [
     # url(r'^test/$', test.as_view()),
     url(r'^', include(router.urls)),
     url(r'^register_room/', RegisterRoom.as_view()),
+    url(r'^register_user', RegisterTenantUser.as_view()),
 ]

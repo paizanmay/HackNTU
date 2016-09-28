@@ -6,7 +6,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from apps.landlord.apis.serializers import RoomSerializer, RoomDetailSerializer
-from apps.landlord.models import Room
+from apps.landlord.models import *
+from apps.tenant.models import TenantUser
+from apps.fb_bot.sender import *
 
 
 class MultiSerializerViewSet(viewsets.ModelViewSet):
@@ -29,3 +31,30 @@ class RoomViewSet(MultiSerializerViewSet):
         'default': RoomDetailSerializer,
     }
     lookup_field = 'uuid'
+
+
+class RoomOrderViewSet(APIView):
+
+    def post(self, request):
+        order_detail = request.data.get("order_detail")
+        tenant_allocation = request.data.get("tenant_allocation")
+        user_uuid = request.data.get("user_uuid")
+
+        room = Room.objects.get(uuid=order_detail["room"])
+        order_detail["room"] = room
+        create_user = TenantUser.objects.get(uuid=user_uuid)
+        order = RoomOrder(**order_detail)
+        order.create_user = create_user
+        order.save()
+
+        for tenant in tenant_allocation:
+            tenant_user = TenantUser.objects.get(uuid=tenant["uuid"])
+            order_part = RoomOrderPart.objects.create(room_order=order, tenant=tenant_user, amount=tenant["amount"])
+
+        send_create_order_signal(order)
+
+        return Response("OK")
+
+
+
+

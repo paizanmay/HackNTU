@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="createOrder">
 
 <head>
 <meta charset="UTF-8">
@@ -10,17 +10,15 @@
 
 {% load staticfiles %}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-resource.min.js"></script>
+<script type="text/javascript" src="{% static 'js/create_order.js' %}"></script>
 <link rel="stylesheet" href="//ichef.github.io/iC-framework/dist/css/ic-framework.min.css">
 
 </head>
 
-<body id="main-view">
-    <section class="ic-section">
+<body ng-controller="createOrderCtrl">
+    <section class="ic-section" ng-hide="isSuccess">
         <h3 class="ic-section__title">費用資訊</h3>
     
         <div class="ic-section__container">
@@ -32,11 +30,11 @@
                                 費用類別
                             </span>
                             <span class="ic-list__item-value">
-                                <select>
-                                    <option>電費</option>
-                                    <option>水費</option>
-                                    <option>網路費</option>
-                                    <option>雜費</option>
+                                <select ng-model="orderDetail.order_type">
+                                    <option value="2">電費</option>
+                                    <option value="1">水費</option>
+                                    <option value="3">網路費</option>
+                                    <option value="4">雜費</option>
                                 </select>
                             </span>
                         </span>
@@ -46,10 +44,10 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                費用名稱
+                                備註
                             </span>
                             <span class="ic-list__item-value">
-                                <input type="text">
+                                <input type="text" ng-model="orderDetail.name">
                             </span>
                         </span>
                     </div>
@@ -58,10 +56,10 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                應繳總額
+                                總額
                             </span>
                             <span class="ic-list__item-value">
-                                <input type="number">
+                                <input type="number" ng-model="orderDetail.amount">
                             </span>
                         </span>
                     </div>
@@ -73,13 +71,7 @@
                                 繳費期限
                             </span>
                             <span class="ic-list__item-value">
-                                <input type="number" value="2016">
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number" value="9">
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number" value="22">
+                                <input type="date" ng-model="orderDetail.deadline">
                             </span>
                         </span>
                     </div>
@@ -89,19 +81,19 @@
     </section>
 
     <!-- <form action="/tenant/tenant_pay_order_success/" method="POST"> -->
-    <section class="ic-section">
+    <section class="ic-section" ng-hide="isSuccess">
         <h3 class="ic-section__title">分帳方式</h3>
     
         <div class="ic-section__container">
             <ul class="ic-list ic-list--setting">
-                <li class="ic-list__item">
+                <li class="ic-list__item" ng-repeat="user in userList">
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                第一位
+                                {$ $index + 1 $}.{$ user.name $}
                             </span>
                             <span class="ic-list__item-value">
-                                <input type="number">
+                                <input type="number" ng-model="user.amount">
                             </span>
                         </span>
                     </div>
@@ -110,34 +102,7 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                第二位
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number">
-                            </span>
-                        </span>
-                    </div>
-                </li>
-                <li class="ic-list__item">
-                    <div class="ic-list__item-container">
-                        <span class="ic-list__item-body">
-                            <span class="ic-list__item-label">
-                                第三位
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number">
-                            </span>
-                        </span>
-                    </div>
-                </li>
-                <li class="ic-list__item">
-                    <div class="ic-list__item-container">
-                        <span class="ic-list__item-body">
-                            <span class="ic-list__item-label">
-                                第四位
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number">
+                                <button class="ic-btn ic-btn--blue" ng-click="allocate()">自動分配</button>
                             </span>
                         </span>
                     </div>
@@ -153,7 +118,7 @@
                                 新增費用
                             </span>
                             <span class="ic-list__item-value">
-                                <button class="ic-btn ic-btn--blue" type="submit">確認</button>
+                                <button class="ic-btn ic-btn--blue" type="submit" ng-click="create()">確認</button>
                             </span>
                         </span>
                     </div>
@@ -162,7 +127,38 @@
         </div>
     </section>
     
+<div class="ic-popup ic-popup--blue" ng-if="isPopover">
+    <div class="ic-popup__backdrop"></div>
+    <div class="ic-popup__container">
+        <div class="ic-popup__body">
+            <div class="ic-popup__icon">
+                <i class="ic-icon-success ic-icon--large"></i>
+            </div>
+            <p class="ic-popup__message">
+                成功新增代繳費用
+            </p>
+        </div>
+
+        <div class="ic-popup__footer">
+            <button class="ic-popup__button ic-popup__button--primary" ng-click="closePopup()">OK</button>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+var user_list = [];
+var roomUuid = '{{room_uuid}}';
+var userUuid = '{{user_uuid}}';
+
+{% for user in room_tenant_list %}
+user_list.push(
+    {
+        "name": '{{user.name}}',
+        "uuid": '{{user.uuid}}',
+    }
+)
+{% endfor %}
+
 </script>
 
 </body>

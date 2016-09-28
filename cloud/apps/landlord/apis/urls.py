@@ -12,4 +12,5 @@ router.register(r'room', RoomViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r"^room_order", RoomOrderViewSet.as_view(), name="room_order")
 ]

@@ -72,6 +72,7 @@ def tenant_pay_order_page(request, order_part_uuid):
     return_data = {
         "amount": order_part.amount,
         "user_name": order_part.tenant.name,
+        "order_name": order_part.room_order.name,
         "deadline": str(order_part.room_order.deadline.date()),
         "order_part_uuid": order_part_uuid,
         "replace_pay_user_uuid": replace_pay_user

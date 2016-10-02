@@ -49,7 +49,9 @@ class RoomOrderViewSet(APIView):
 
         for tenant in tenant_allocation:
             tenant_user = TenantUser.objects.get(uuid=tenant["uuid"])
-            order_part = RoomOrderPart.objects.create(room_order=order, tenant=tenant_user, amount=tenant["amount"])
+            is_paid = create_user == tenant_user
+            if int(tenant["amount"]) > 0:
+                order_part = RoomOrderPart.objects.create(room_order=order, tenant=tenant_user, amount=tenant["amount"], is_paid=is_paid)
 
         send_create_order_signal(order)
 

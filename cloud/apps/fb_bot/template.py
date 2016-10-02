@@ -105,14 +105,16 @@ def pay_new_order(order, create_user):
         "title": "新增應繳費用 | %s" % order.room_order.name,
         "subtitle": "新增人: {create_user} \n 費用名稱: {order_name} \n 應繳總額: {amount} \n 繳費期限: {deadline}".format(create_user=create_user, order_name=order.room_order.name, amount=order.amount, deadline=str(order.room_order.deadline)[:10]),
         "image_url": OrderImage.get_img_url(order),
-        "buttons": [
+    }
+
+    if order.is_paid is False:
+        msg["buttons"] = [
             {
                 "type":"web_url",
                 "title":"前往繳費 $%s" % order.amount,
                 "url": SERVER_URL + "/tenant/tenant_pay_order_page/%s" % order.uuid
             }
         ]
-    }
 
     return [msg]
 

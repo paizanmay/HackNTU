@@ -33,14 +33,14 @@ def welcome_page(room_uuid, user_uuid):
 
     return title, buttons
 
-def register_user_page():
+def register_user_page(sender_id):
     msg = {
         "title": "登記使用者資訊",
         "subtitle": "請先登記您的房客資訊，才能繼續使用",
         "image_url": OrderImage.logo,
         "buttons":[{
             "type": "account_link",
-            "url": SERVER_URL + "/authorize"
+            "url": SERVER_URL + "/authorize/"+ sender_id
         }]
     }
 

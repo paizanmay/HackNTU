@@ -49,6 +49,7 @@ createOrder.controller('createOrderCtrl', function($scope, $http) {
     }
 
     $scope.create = function() {
+        $scope.isPopover = true;
         var data = {
             'order_detail': $scope.orderDetail,
             'tenant_allocation': $scope.userList,
@@ -57,7 +58,6 @@ createOrder.controller('createOrderCtrl', function($scope, $http) {
         $http.post('/landlord/api/room_order', data)
         .then(function(response){
             $scope.isSuccess = true;
-            $scope.isPopover = true;
         });
     }
 

@@ -33,7 +33,8 @@ class Receiver(object):
         return self.user.live_room is not None
 
     def register(self):
-        return send_account_link(self.user_sender_id)
+        self.user = TenantUser.register_user(self.user_sender_id)
+        return self.user
 
     def livein(self):
         return bot.send_text_message(self.user_sender_id, "還未入住房間，請上傳房間QRCode來辦理入住")

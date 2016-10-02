@@ -132,5 +132,5 @@ MIDDLEWARE_CLASSES = (
     "cloud.middleware.ProcessExceptionMiddleware",
 )
 
-SERVER_URL = "https://461ff1e9.ngrok.io"#os.environ.get("SERVER_URL")
+SERVER_URL = os.environ.get("SERVER_URL", "https://38d4eb53.ngrok.io")
 PAGE_ACCESS_TOKEN = "EAARbX2lVdesBAK4cLqF3M7XpRgxvqsasZCF4fHMStvM0xnEez9tq77ES1FIx4mjfwvXq8aJJGReJleGnbfpdAQwBHGoAr6HbIeNzwy6IaKdOq3fAXed2ZCjZCwOwCeBeyX6I0rJj0RDXb6sJVmhSZA6DzQbpACoseH5EMc9kswZDZD"

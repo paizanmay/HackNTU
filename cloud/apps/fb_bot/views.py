@@ -40,7 +40,8 @@ class BotWebhook(APIView):
                 
                 if sender.is_auth() is False:
                     result = sender.register()
-                elif sender.has_room() is False:
+                
+                if sender.has_room() is False:
                     result = sender.livein()
                 else:
                     result = sender.send()
@@ -64,7 +65,7 @@ class RegisterUser(APIView):
 
         return Response(data=return_data)
 
-def login_user(request):
+def login_user(request, sender_id):
     account_linking_token = request.GET.get("account_linking_token")
     redirect_uri = request.GET.get("redirect_uri")
     return render_to_response("tenant/login.html", dict(redirect_uri=redirect_uri))

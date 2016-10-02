@@ -13,5 +13,5 @@ router = DefaultRouter()
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^webhook', BotWebhook.as_view()),
-    url(r'^authorize', login_user),
+    url(r'^authorize/(?P<sender_id>[-\w]+)', login_user),
 ]

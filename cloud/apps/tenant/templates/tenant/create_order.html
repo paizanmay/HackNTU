@@ -134,8 +134,11 @@
             <div class="ic-popup__icon">
                 <i class="ic-icon-success ic-icon--large"></i>
             </div>
-            <p class="ic-popup__message">
+            <p class="ic-popup__message" ng-if="isSuccess">
                 成功新增代繳費用
+            </p>
+            <p class="ic-popup__message" ng-if="!isSuccess">
+                新增待繳費用中
             </p>
         </div>
 

@@ -26,7 +26,7 @@ def send_create_order_signal(order):
         bot.send_generic_message(order_part.tenant.sender_id, pay_new_order(part, create_user_name))
 
 def send_account_link(sender_id):
-    return bot.send_generic_message(sender_id, register_user_page())
+    return bot.send_generic_message(sender_id, register_user_page(sender_id))
 
 def send_payment_page(sender_id, room_uuid, user_uuid):
     return bot.send_button_message(sender_id, *welcome_page(room_uuid, user_uuid))

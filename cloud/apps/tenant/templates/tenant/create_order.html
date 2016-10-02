@@ -131,18 +131,21 @@
     <div class="ic-popup__backdrop"></div>
     <div class="ic-popup__container">
         <div class="ic-popup__body">
-            <div class="ic-popup__icon">
+            <div class="ic-popup__icon" ng-if="isSuccess">
                 <i class="ic-icon-success ic-icon--large"></i>
             </div>
             <p class="ic-popup__message" ng-if="isSuccess">
                 成功新增代繳費用
             </p>
+            <div class="ic-popup__icon" ng-if="!isSuccess">
+                <i class="ic-icon-loading ic-icon--large ic-icon--spin"></i>
+            </div>
             <p class="ic-popup__message" ng-if="!isSuccess">
-                新增待繳費用中
+                新增待繳費用中...
             </p>
         </div>
 
-        <div class="ic-popup__footer">
+        <div class="ic-popup__footer" ng-show="isSuccess">
             <button class="ic-popup__button ic-popup__button--primary" ng-click="closePopup()">OK</button>
         </div>
     </div>

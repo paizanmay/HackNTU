@@ -2,6 +2,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import urllib
+import logging
 
 from django.conf import settings
 from django.db.models import Q
@@ -17,6 +18,7 @@ from apps.fb_bot.sender import *
 
 bot = Bot(settings.PAGE_ACCESS_TOKEN)
 SERVER_URL = settings.SERVER_URL
+logger = logging.getLogger(__name__)
 
 class Receiver(object):
     def __init__(self, event):

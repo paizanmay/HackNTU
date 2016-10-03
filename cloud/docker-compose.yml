@@ -13,12 +13,10 @@ services:
     # build: .
     image: paizanmay/pebak:latest
     command: bash -c "python manage.py runserver 0.0.0.0:8000"
-    # volumes:
-    #   - .:/app
+    volumes:
+      - .:/app
     ports:
-      - "80:8000"
-    cpu_shares: 1024
-    mem_limit: 512
+      - "8000:8000"
     working_dir: /app
     # depends_on:
     #   - db_mysql
@@ -27,7 +25,7 @@ services:
     #   - db_mysql
     #   - db_mongo
     environment:
-      SERVER_URL: "http://52.192.99.221"
+      SERVER_URL: "http://localhost"
       # DB_DEFAULT_HOST: "db_mysql"
       # MONGODB_DEFAULT_HOST: "db_mongo"
       # REPORT_DB_DEFAULT_HOST: "db_mysql"

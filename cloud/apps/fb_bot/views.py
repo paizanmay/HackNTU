@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import json
 import traceback
+import logging
 
 from django.conf import settings
 from django.shortcuts import render_to_response
@@ -17,6 +18,7 @@ from .receiver import *
 
 TOKEN = settings.PAGE_ACCESS_TOKEN
 bot = Bot(TOKEN)
+logger = logging.getLogger(__name__)
 
 class BotWebhook(APIView):
 
@@ -24,6 +26,7 @@ class BotWebhook(APIView):
         return Response(data=int(request.GET.get("hub.challenge")))
 
     def post(self, request):
+        logger.error("test")
         try:
             output = request.data
             result = "no reuslt"
@@ -37,7 +40,7 @@ class BotWebhook(APIView):
                 elif event.get("account_linking") is not None:
                     sender = AccountLinkReceiver(event)
                     result = sender.send()
-                
+
                 if sender.is_auth() is False:
                     result = sender.register()
                 
@@ -45,8 +48,9 @@ class BotWebhook(APIView):
                     result = sender.livein()
                 else:
                     result = sender.send()
-                print("FB Bot result:", result)
+                logger.info("FB Bot result:", result)
         except Exception as e:
+            logger.error(e)
             traceback.print_exc()
 
         return Response(data="success")

@@ -12,13 +12,14 @@ services:
   web:
     # build: .
     image: paizanmay/pebak:latest
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/app
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+    # volumes:
+    #   - .:/app
     ports:
-      - "8000:8000"
-    expose:
-      - "8000"
+      - "80:8000"
+    cpu_shares: 1024
+    mem_limit: 512
+    working_dir: /app
     # depends_on:
     #   - db_mysql
     #   - db_mongo
@@ -26,7 +27,7 @@ services:
     #   - db_mysql
     #   - db_mongo
     environment:
-      SERVER_URL: "http://52.192.99.221:8000"
+      SERVER_URL: "http://52.192.99.221"
       # DB_DEFAULT_HOST: "db_mysql"
       # MONGODB_DEFAULT_HOST: "db_mongo"
       # REPORT_DB_DEFAULT_HOST: "db_mysql"

@@ -119,3 +119,12 @@ def create_order_page(request):
     }    
 
     return render_to_response("tenant/create_order.html", return_data)
+
+def setting_account_page(request):
+    user_uuid = request.GET.get("user_uuid")
+    user = TenantUser.objects.get(uuid=user_uuid)
+
+    return render_to_response("tenant/setting_account.html", dict(user=user))
+
+
+

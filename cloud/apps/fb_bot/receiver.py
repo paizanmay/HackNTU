@@ -154,7 +154,9 @@ class PostBackReceiver(Receiver):
             bot.send_text_message(self.user_sender_id, "入住成功")
             return send_payment_page(self.user_sender_id, self.user.live_room.uuid, self.user.uuid)
 
-
         elif self.postback_payload == "PAY_RENT":
             return send_payment_page(self.user_sender_id, self.user.live_room.uuid, self.user.uuid)
+
+        elif self.postback_payload == "SETTING_ACCOUNT":
+            bot.send_button_message(self.user_sender_id, *settting_account(self.user.uuid))
 

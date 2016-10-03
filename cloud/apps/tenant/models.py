@@ -22,6 +22,9 @@ class TenantUser(AbstractBaseUser):
     profile_img_url = models.TextField(null=True, blank=True)
     live_room = models.ForeignKey("landlord.Room", null=True, on_delete=models.SET_NULL, related_name='tenant_user')
 
+    bank_code = models.CharField(max_length=3L, blank=True)
+    bank_account = models.CharField(max_length=50L, blank=True)
+
     USERNAME_FIELD = "username"
 
     class Meta:

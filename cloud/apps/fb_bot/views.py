@@ -19,6 +19,7 @@ from .receiver import *
 TOKEN = settings.PAGE_ACCESS_TOKEN
 bot = Bot(TOKEN)
 logger = logging.getLogger(__name__)
+logging.basicConfig()
 
 class BotWebhook(APIView):
 
@@ -26,7 +27,6 @@ class BotWebhook(APIView):
         return Response(data=int(request.GET.get("hub.challenge")))
 
     def post(self, request):
-        logger.error("test")
         try:
             output = request.data
             result = "no reuslt"
@@ -48,7 +48,7 @@ class BotWebhook(APIView):
                     result = sender.livein()
                 else:
                     result = sender.send()
-                logger.info("FB Bot result:", result)
+                logger.info("FB Bot result:", )
         except Exception as e:
             logger.error(e)
             traceback.print_exc()

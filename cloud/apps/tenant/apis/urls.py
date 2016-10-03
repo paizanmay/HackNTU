@@ -8,7 +8,7 @@ from .views import *
 
 
 router = DefaultRouter()
-# router.register(r'menu_item_category', MenuItemCategoryViewSet)
+router.register(r'tenant_user', TenantUserViewSet)
 
 urlpatterns = [
     # url(r'^test/$', test.as_view()),

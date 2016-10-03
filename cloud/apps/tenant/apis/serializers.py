@@ -19,7 +19,7 @@ class TenantUserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TenantUser
-        fields = ("uuid", "name", "live_room", )
+        fields = ("uuid", "name", "live_room", "bank_code", "bank_account")
 
 class TenantUserSimpleSerializer(serializers.ModelSerializer):
     

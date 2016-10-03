@@ -33,6 +33,17 @@ def welcome_page(room_uuid, user_uuid):
 
     return title, buttons
 
+def settting_account(user_uuid):
+    title = "請點擊設定銀行帳號"
+    buttons = [
+        {
+            "type":"web_url",
+            "title":"設定帳號",
+            "url": SERVER_URL + "/tenant/setting_account_page?user_uuid=" + user_uuid
+        }
+    ]
+    return title, buttons
+
 def register_user_page(sender_id):
     msg = {
         "title": "登記使用者資訊",

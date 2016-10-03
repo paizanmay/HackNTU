@@ -14,14 +14,14 @@ createOrder.factory('$apiResource', ['$resource', function($resource){
             'partial_update': {method:'PATCH'}
         };
         actions = angular.extend({}, MY_ACTIONS , actions);
-        url = "/landlord/api/"+url;
+        // url = "/landlord/api/"+url;
         return $resource(url, paramDefaults, actions);
     }
 }]);
 
-// createOrder.factory('RoomResource', function($apiResource) {
-//     return $apiResource('room/:uuid/', null);
-// });
+createOrder.factory('TenantUserResource', function($apiResource) {
+    return $apiResource('/tenant/api/tenant_user/:uuid/', null);
+});
 
 
 createOrder.controller('createOrderCtrl', function($scope, $http) {
@@ -63,3 +63,29 @@ createOrder.controller('createOrderCtrl', function($scope, $http) {
 
     init();
 });
+
+createOrder.controller('accountSettingCtrl', function($scope, $http, TenantUserResource) {
+    $scope.user = user;
+    $scope.isSuccess = false;
+    $scope.isPopover = false;
+
+    $scope.closePopup = function() {
+        $scope.isPopover = false;
+        window.close();
+    }
+
+    $scope.submit = function() {
+        $scope.isPopover = true;
+        var data = {
+            'bank_code': $scope.user.bankCode,
+            'bank_account': $scope.user.bankAccount
+        };
+        
+        TenantUserResource.partial_update({'uuid': $scope.user.uuid}, data).$promise
+        .then(function(response){
+            $scope.isSuccess = true;
+        })
+    }
+
+
+})

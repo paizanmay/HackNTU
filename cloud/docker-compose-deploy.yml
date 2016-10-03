@@ -5,8 +5,8 @@ web:
     - "sh"
     - "-c"
     - "python manage.py runserver 0.0.0.0:8000"
-  volumes:
-    - /home/ec2-user/rentjiao/cloud:/app
+  # volumes:
+  #   - /home/ec2-user/rentjiao/cloud:/app
   ports:
     - "80:8000"
     - "443:8000"

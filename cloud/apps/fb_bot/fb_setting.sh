@@ -9,8 +9,8 @@ curl -X POST -H "Content-Type: application/json" -d '{
     },
     {
       "type":"postback",
-      "title":"登入",
-      "payload":"LOGIN"
+      "title":"設定銀行帳號",
+      "payload":"SETTING_ACCOUNT"
     }
   ]
 }' "https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAARbX2lVdesBAK4cLqF3M7XpRgxvqsasZCF4fHMStvM0xnEez9tq77ES1FIx4mjfwvXq8aJJGReJleGnbfpdAQwBHGoAr6HbIeNzwy6IaKdOq3fAXed2ZCjZCwOwCeBeyX6I0rJj0RDXb6sJVmhSZA6DzQbpACoseH5EMc9kswZDZD"    

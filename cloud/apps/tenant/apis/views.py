@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from apps.tenant.models import TenantUser
 from apps.tenant.apis.serializers import TenantUserSerializer, TenantUserSimpleSerializer
@@ -32,3 +33,10 @@ class RegisterTenantUser(APIView):
 
         serializer = TenantUserSimpleSerializer(user)
         return Response(data=serializer.data)
+
+
+class TenantUserViewSet(viewsets.ModelViewSet):
+    queryset = TenantUser.objects.all()
+    serializer_class = TenantUserSerializer
+    lookup_field = 'uuid'
+

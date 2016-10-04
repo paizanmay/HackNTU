@@ -146,6 +146,53 @@ def room_info_check(room):
 
     return title, buttons
 
+def change_room_fee_for_other_in(moved_user, leave_user):
+    title = "{name}已入住，請問要調整房間費用分配嗎？".format(name=moved_user.name)
+    msg = {
+        "title": title,
+        "image_url": moved_user.profile_img_url,
+        "buttons": [
+            {
+                "type":"web_url",
+                "title":"我要調整",
+                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s" % leave_user.live_room.uuid
+            }
+        ]
+    }
+
+    return [msg]
+
+def change_room_fee_for_other_out(moved_user, leave_user):
+    title = "{name}已搬離，請問要調整房間費用分配嗎？".format(name=moved_user.name)
+    msg = {
+        "title": title,
+        "image_url": moved_user.profile_img_url,
+        "buttons": [
+            {
+                "type":"web_url",
+                "title":"我要調整",
+                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s" % leave_user.live_room.uuid
+            }
+        ]
+    }
+
+    return [msg]
+
+def change_room_fee_for_self(user):
+    title = "請問要調整房間費用分配嗎？"
+    msg = {
+        "title": title,
+        "image_url": user.profile_img_url,
+        "buttons": [
+            {
+                "type":"web_url",
+                "title":"我要調整",
+                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s" % user.live_room.uuid
+            }
+        ]
+    }
+
+    return [msg]
 
 
 

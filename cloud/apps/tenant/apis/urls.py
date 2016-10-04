@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^register_room/', RegisterRoom.as_view()),
     url(r'^register_user', RegisterTenantUser.as_view()),
+    url(r'^change_room_fee', ChangeRoomFeeView.as_view()),
 ]

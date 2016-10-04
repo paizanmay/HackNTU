@@ -8,6 +8,7 @@ from rest_framework import viewsets
 from apps.tenant.models import TenantUser
 from apps.tenant.apis.serializers import TenantUserSerializer, TenantUserSimpleSerializer
 from apps.landlord.models import Room
+from apps.landlord.apis.serializers import RoomDetailSerializer
 
 
 class RegisterRoom(APIView):
@@ -39,4 +40,21 @@ class TenantUserViewSet(viewsets.ModelViewSet):
     queryset = TenantUser.objects.all()
     serializer_class = TenantUserSerializer
     lookup_field = 'uuid'
+
+
+class ChangeRoomFeeView(APIView):
+
+    def post(self, request):
+        room = request.data
+        user_list = room["tenant_user"]
+
+        for user in user_list:
+            change_user = TenantUser.objects.get(uuid=user["uuid"])
+            change_user.live_room_amount = user["live_room_amount"]
+            change_user.save()
+
+        result_room = Room.objects.get(uuid=room["uuid"])
+
+        serializer = RoomDetailSerializer(result_room)
+        return Response(data=serializer.data)
 

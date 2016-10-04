@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^tenant_pay_order_page/(?P<order_part_uuid>[-\w]+)$', tenant_pay_order_page, name="tenant_pay_order_page"),
     url(r'^tenant_pay_order_success/$', tenant_pay_order_success, name="tenant_pay_order_success"),
     url(r'^create_order_page/$', create_order_page, name="create_order_page"),
+    url(r'^change_room_fee_page/$', change_room_fee_page, name="change_room_fee_page"),
     url(r'^setting_account_page$', setting_account_page, name="setting_account_page"),
 ]

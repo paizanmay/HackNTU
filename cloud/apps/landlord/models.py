@@ -20,6 +20,7 @@ class LandlordUser(AbstractBaseUser):
     uuid = models.CharField(max_length=36L, default=generate_uuid)
     username = models.CharField(unique=True, max_length=100, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
+    bank_code = models.CharField(max_length=3L, null=True, blank=True)
     bank_account = models.CharField(max_length=100L, null=True, blank=True)
 
     USERNAME_FIELD = "username"
@@ -61,7 +62,7 @@ class RoomOrder(models.Model):
     order_type = models.IntegerField(choices=ORDER_TYPE_CHOICES, default=OrderType.room.value)
     amount = models.IntegerField(default=0)
     deadline = models.DateTimeField(null=True, auto_now_add=True)
-    
+
     paid_bank_code = models.CharField(max_length=3, blank=True, default="")
     paid_bank_account = models.CharField(max_length=50, blank=True, default="")
 
@@ -70,6 +71,10 @@ class RoomOrder(models.Model):
     class Meta:
         app_label = "landlord"
         db_table = "room_order"
+
+    @property
+    def is_paid(self):
+        return not self.room_order_part.filter(is_paid=False).exists()
 
 
 class RoomOrderPart(models.Model):

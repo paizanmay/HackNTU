@@ -160,3 +160,6 @@ class PostBackReceiver(Receiver):
         elif self.postback_payload == "SETTING_ACCOUNT":
             bot.send_button_message(self.user_sender_id, *settting_account(self.user.uuid))
 
+        elif self.postback_payload == "CHANGE_ROOM_FEE":
+            bot.send_generic_message(self.user_sender_id, change_room_fee_for_self(self.user))
+

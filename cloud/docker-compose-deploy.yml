@@ -20,7 +20,7 @@ web:
   #   - db_mysql
   #   - db_mongo
   environment:
-    SERVER_URL: "http://52.192.99.221"
+    SERVER_URL: "https://www.pebak.net"
     COMPOSE_PROJECT_NAME: HackThon
     # DB_DEFAULT_HOST: "db_mysql"
     # MONGODB_DEFAULT_HOST: "db_mongo"

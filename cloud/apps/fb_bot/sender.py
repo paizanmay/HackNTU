@@ -30,3 +30,5 @@ def send_account_link(sender_id):
 
 def send_payment_page(sender_id, room_uuid, user_uuid):
     return bot.send_button_message(sender_id, *welcome_page(room_uuid, user_uuid))
+
+

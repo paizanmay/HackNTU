@@ -120,6 +120,15 @@ def create_order_page(request):
 
     return render_to_response("tenant/create_order.html", return_data)
 
+def change_room_fee_page(request):
+    room_uuid = request.GET.get("room_uuid")
+
+    return_data = {
+        "room_uuid": room_uuid,
+    }    
+
+    return render_to_response("tenant/change_room_fee.html", return_data)
+
 def setting_account_page(request):
     user_uuid = request.GET.get("user_uuid")
     user = TenantUser.objects.get(uuid=user_uuid)

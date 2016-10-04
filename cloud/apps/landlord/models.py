@@ -61,6 +61,9 @@ class RoomOrder(models.Model):
     order_type = models.IntegerField(choices=ORDER_TYPE_CHOICES, default=OrderType.room.value)
     amount = models.IntegerField(default=0)
     deadline = models.DateTimeField(null=True, auto_now_add=True)
+    
+    paid_bank_code = models.CharField(max_length=3, blank=True, default="")
+    paid_bank_account = models.CharField(max_length=50, blank=True, default="")
 
     create_user = None
 

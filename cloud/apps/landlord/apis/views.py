@@ -38,13 +38,15 @@ class RoomOrderViewSet(APIView):
     def post(self, request):
         order_detail = request.data.get("order_detail")
         tenant_allocation = request.data.get("tenant_allocation")
-        user_uuid = request.data.get("user_uuid")
+        user = request.data.get("user")
 
         room = Room.objects.get(uuid=order_detail["room"])
         order_detail["room"] = room
-        create_user = TenantUser.objects.get(uuid=user_uuid)
+        create_user = TenantUser.objects.get(uuid=user["uuid"])
         order = RoomOrder(**order_detail)
         order.create_user = create_user
+        order.paid_bank_code = user["bank_code"]
+        order.paid_bank_account = user["bank_account"]
         order.save()
 
         for tenant in tenant_allocation:

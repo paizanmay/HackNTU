@@ -24,7 +24,7 @@ createOrder.factory('TenantUserResource', function($apiResource) {
 });
 
 
-createOrder.controller('createOrderCtrl', function($scope, $http) {
+createOrder.controller('createOrderCtrl', function($scope, $http, TenantUserResource) {
     function init() {
         $scope.userList = user_list;
         $scope.orderDetail = {
@@ -32,6 +32,9 @@ createOrder.controller('createOrderCtrl', function($scope, $http) {
         };
         $scope.isSuccess = false;
         $scope.isPopover = false;
+        TenantUserResource.get({'uuid': userUuid}).$promise.then(function(response){
+            $scope.user = response
+        });
     }
 
     $scope.allocate = function() {
@@ -53,7 +56,7 @@ createOrder.controller('createOrderCtrl', function($scope, $http) {
         var data = {
             'order_detail': $scope.orderDetail,
             'tenant_allocation': $scope.userList,
-            'user_uuid': userUuid,
+            'user': $scope.user,
         }
         $http.post('/landlord/api/room_order', data)
         .then(function(response){
@@ -80,7 +83,7 @@ createOrder.controller('accountSettingCtrl', function($scope, $http, TenantUserR
             'bank_code': $scope.user.bankCode,
             'bank_account': $scope.user.bankAccount
         };
-        
+
         TenantUserResource.partial_update({'uuid': $scope.user.uuid}, data).$promise
         .then(function(response){
             $scope.isSuccess = true;

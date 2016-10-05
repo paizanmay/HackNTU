@@ -80,9 +80,9 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                繳費銀行代碼
+                                轉入銀行代碼
                             </span>
-                            <span class="ic-list__item-value">
+                            <span class="ic-list__item-value" style="max-width:50%;">
                                 <input class="ic-input" type="text" ng-model="user.bank_code">
                             </span>
                         </span>
@@ -92,9 +92,9 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                繳費銀行帳號
+                                轉入銀行帳號
                             </span>
-                            <span class="ic-list__item-value">
+                            <span class="ic-list__item-value" style="max-width:50%;">
                                 <input class="ic-input" type="text" ng-model="user.bank_account">
                             </span>
                         </span>
@@ -126,7 +126,7 @@
                                 {$ $index + 1 $}.{$ user.name $}
                             </span>
                             <span class="ic-list__item-value">
-                                <input class="ic-input" type="number" ng-model="user.amount">
+                                <input type="number" ng-model="user.amount">
                             </span>
                         </span>
                     </div>

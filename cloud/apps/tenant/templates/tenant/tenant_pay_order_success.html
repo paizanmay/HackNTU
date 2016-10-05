@@ -37,7 +37,7 @@
                                 應付款人
                             </span>
                             <span class="ic-list__item-value">
-                                {{ user_name }}
+                                {{ order.tenant.name }}
                             </span>
                         </span>
                     </div>
@@ -49,7 +49,7 @@
                                 費用名稱
                             </span>
                             <span class="ic-list__item-value">
-                                九月房租
+                                {{order.room_order.name}}
                             </span>
                         </span>
                     </div>
@@ -58,10 +58,22 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                信用卡號
+                                轉出銀行
                             </span>
                             <span class="ic-list__item-value">
-                                {{ card_number }}
+                                {{ pay_user.bank_code }}|{{ pay_user.bank_account }}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                轉入銀行
+                            </span>
+                            <span class="ic-list__item-value">
+                                {{ landlord.bank_code }}|{{ landlord.bank_account }}
                             </span>
                         </span>
                     </div>
@@ -73,7 +85,18 @@
                                 總金額
                             </span>
                             <span class="ic-list__item-value">
-                                {{ amount }}
+                                {{ order.amount }}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                            </span>
+                            <span class="ic-list__item-value">
+                                <button class="ic-btn ic-btn--blue" onclick="window.close()">確認</button>
                             </span>
                         </span>
                     </div>

@@ -9,6 +9,7 @@ from apps.tenant.models import TenantUser
 from apps.tenant.apis.serializers import TenantUserSerializer, TenantUserSimpleSerializer
 from apps.landlord.models import Room
 from apps.landlord.apis.serializers import RoomDetailSerializer
+from apps.fb_bot.sender import *
 
 
 class RegisterRoom(APIView):
@@ -45,8 +46,11 @@ class TenantUserViewSet(viewsets.ModelViewSet):
 class ChangeRoomFeeView(APIView):
 
     def post(self, request):
-        room = request.data
+        room = request.data.get("room")
+        create_user_uuid = request.data.get("user_uuid")
         user_list = room["tenant_user"]
+
+        create_user = TenantUser.objects.get(uuid=create_user_uuid)
 
         for user in user_list:
             change_user = TenantUser.objects.get(uuid=user["uuid"])
@@ -56,5 +60,8 @@ class ChangeRoomFeeView(APIView):
         result_room = Room.objects.get(uuid=room["uuid"])
 
         serializer = RoomDetailSerializer(result_room)
+
+        send_change_room_fee_result(create_user, result_room)
+
         return Response(data=serializer.data)
 

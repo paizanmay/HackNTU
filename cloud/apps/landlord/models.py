@@ -84,7 +84,11 @@ class RoomOrderPart(models.Model):
     replace_pay_user = models.ForeignKey("tenant.TenantUser", null=True)
     amount = models.IntegerField(default=0)
     card_number = models.CharField(max_length=20L, null=True)
+    paid_bank_code = models.CharField(max_length=3, null=True)
+    paid_bank_account = models.CharField(max_length=50, null=True)
     is_paid = models.BooleanField(default=False)
+
+    is_new_order = False
 
     class Meta:
         app_label = "landlord"
@@ -108,4 +112,21 @@ def check_order_paid(instance, **signal_kwargs):
                 bot.send_text_message(instance.tenant.sender_id, success_msg)
                 replace_success_msg = "{order_name}:您已代替{user_name}繳款成功".format(order_name=order_name, user_name=user_name)
                 bot.send_text_message(instance.replace_pay_user.sender_id, replace_success_msg)
+    else:
+        instance.is_new_order = True
+
+@receiver(models.signals.post_save, sender=RoomOrderPart)
+def check_all_order_paid(instance, **signal_kwargs):
+    if instance.is_new_order is False:
+        room_order = instance.room_order
+        order_part_list = room_order.room_order_part.all()
+
+        msg = "待繳費用:{name}，已全部繳清！"
+
+        if room_order.is_paid is True:
+            for order_part in order_part_list:
+                bot.send_text_message(order_part.tenant.sender_id, msg.format(name=room_order.name))
+
+
+
 

@@ -31,4 +31,10 @@ def send_account_link(sender_id):
 def send_payment_page(sender_id, room_uuid, user_uuid):
     return bot.send_button_message(sender_id, *welcome_page(room_uuid, user_uuid))
 
+def send_change_room_fee_result(create_user, room):
+    title, button = change_room_fee_result(create_user, room.tenant_user.all())
 
+    for user in room.tenant_user.all():
+        bot.send_button_message(user.sender_id, title, button)
+
+    return True 

@@ -11,6 +11,17 @@ from apps.fb_bot.constant import OrderImage
 bot = Bot(settings.PAGE_ACCESS_TOKEN)
 SERVER_URL = settings.SERVER_URL
 
+def intro_page(user):
+    title = "%s您好，歡迎使用懶交！ \n請先設定你的銀行帳號才可以繳款喔！" % user.name
+    buttons = [
+        {
+            "type":"web_url",
+            "title":"設定銀行帳號",
+            "url": SERVER_URL + "/tenant/setting_account_page?user_uuid=" + user.uuid
+        }
+    ]
+    return title, buttons
+
 def welcome_page(room_uuid, user_uuid):
     title = "你的Rent交了嗎？\n\n我是小交，可以協助你繳交房租/水電/網路費用、查看繳費狀況哦！"
     buttons = [
@@ -57,10 +68,10 @@ def register_user_page(sender_id):
 
     return [msg]
 
-def rent_order_simple(title, deadline, order):
+def rent_order_simple(order):
     msg = {
-        "title": title,
-        "subtitle": "繳費期限:%s" % str(deadline),
+        "title": "%s | %s" % (order.room_order.name, order.amount),
+        "subtitle": "繳費期限:%s" % str(order.room_order.deadline.date()),
         "image_url": OrderImage.get_img_url(order),
         "buttons": [{
             "type": "web_url",
@@ -94,9 +105,9 @@ def rent_order_with_name(title, paid_name, unpaid_name, deadline, room_order_uui
 
     return msg
 
-def pay_for_others_order(title, others_order, replace_pay_user):
+def pay_for_others_order(room_order, others_order, replace_pay_user):
     msg = {
-        "title": title,
+        "title": "%s | $%s" % (room_order.name, room_order.amount),
         "image_url": OrderImage.get_img_url(others_order[0]),
         "buttons": []
     }
@@ -155,7 +166,7 @@ def change_room_fee_for_other_in(moved_user, leave_user):
             {
                 "type":"web_url",
                 "title":"我要調整",
-                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s" % leave_user.live_room.uuid
+                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (leave_user.live_room.uuid, leave_user.uuid)
             }
         ]
     }
@@ -171,7 +182,7 @@ def change_room_fee_for_other_out(moved_user, leave_user):
             {
                 "type":"web_url",
                 "title":"我要調整",
-                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s" % leave_user.live_room.uuid
+                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (leave_user.live_room.uuid, leave_user.uuid)
             }
         ]
     }
@@ -187,12 +198,30 @@ def change_room_fee_for_self(user):
             {
                 "type":"web_url",
                 "title":"我要調整",
-                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s" % user.live_room.uuid
+                "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (user.live_room.uuid, user.uuid)
             }
         ]
     }
 
     return [msg]
+
+def change_room_fee_result(create_user, user_list):
+    title = "%s已更動房間費用分配 \n房間分配費用結果：\n\n" % create_user.name
+    idx = 1
+    for user in user_list:
+        title += "%s. %s: $%s \n" % (idx, user.name, user.live_room_amount)
+        idx += 1
+
+    title += "\n請問您需要再次調整費用嗎？"
+
+    buttons = [
+        {
+            "type":"web_url",
+            "title":"我要調整",
+            "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (create_user.live_room.uuid, create_user.uuid)
+        }
+    ]
+    return title, buttons
 
 
 

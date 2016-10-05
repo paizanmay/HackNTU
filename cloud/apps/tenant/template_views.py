@@ -66,16 +66,21 @@ def register_user(request):
     return HttpResponse("OK")
 
 def tenant_pay_order_page(request, order_part_uuid):
-    replace_pay_user = request.GET.get("pay_user_uuid")
+    replace_pay_user_uuid = request.GET.get("pay_user_uuid")
+    replace_pay_user = TenantUser.objects.filter(uuid=replace_pay_user_uuid).first()
     order_part = RoomOrderPart.objects.get(uuid=order_part_uuid)
 
+    pay_user = order_part.tenant if replace_pay_user is None else replace_pay_user
+
     return_data = {
+        "order": order_part,
+        "replace_pay_user": replace_pay_user,
         "amount": order_part.amount,
         "user_name": order_part.tenant.name,
         "order_name": order_part.room_order.name,
         "deadline": str(order_part.room_order.deadline.date()),
         "order_part_uuid": order_part_uuid,
-        "replace_pay_user_uuid": replace_pay_user
+        "pay_user": pay_user,
     }
 
     if order_part.is_paid is True:
@@ -86,17 +91,28 @@ def tenant_pay_order_page(request, order_part_uuid):
 @csrf_exempt
 def tenant_pay_order_success(request):
     order_part_uuid = request.POST.get("order_part_uuid")
-    card_number = request.POST.get("card_number")
+    pay_bank_code = request.POST.get("pay_bank_code")
+    pay_bank_account = request.POST.get("pay_bank_account")
     replace_pay_user_uuid = request.POST.get("replace_pay_user_uuid")
     order_part = RoomOrderPart.objects.get(uuid=order_part_uuid)
     order_part.is_paid = True
-    order_part.card_number = card_number[:4] + "********" + card_number[-4:]
+    order_part.paid_bank_code = pay_bank_code
+    order_part.paid_bank_code = pay_bank_account
+
+    replace_pay_user = None
     if replace_pay_user_uuid != "None":
         replace_pay_user = TenantUser.objects.get(uuid=replace_pay_user_uuid)
         order_part.replace_pay_user = replace_pay_user
     order_part.save()
 
+    pay_user = order_part.tenant if replace_pay_user is None else replace_pay_user
+
+    landlord = order_part.room_order.room.landlord_user
+
     return_data = {
+        "order": order_part,
+        "landlord": landlord,
+        "pay_user": pay_user,
         "amount": order_part.amount,
         "user_name": order_part.tenant.name,
         "card_number": order_part.card_number,
@@ -122,9 +138,11 @@ def create_order_page(request):
 
 def change_room_fee_page(request):
     room_uuid = request.GET.get("room_uuid")
+    user_uuid = request.GET.get("user_uuid")
 
     return_data = {
         "room_uuid": room_uuid,
+        "user_uuid": user_uuid,
     }    
 
     return render_to_response("tenant/change_room_fee.html", return_data)

@@ -105,7 +105,7 @@ class PostBackReceiver(Receiver):
             orders = self.user.room_order_part.filter(is_paid=False)
             elements = []
             for order in orders:
-                elements.append(rent_order_simple(order.room_order.name, order.room_order.deadline.date(), order))
+                elements.append(rent_order_simple(order))
             if len(elements) > 0:
                 return bot.send_generic_message(self.user_sender_id, elements)
             return bot.send_text_message(self.user_sender_id, "費用已全數繳清")
@@ -141,7 +141,7 @@ class PostBackReceiver(Receiver):
             room_order_uuid = self.postback_payload.split("$")[-1]
             room_order = RoomOrder.objects.get(uuid=room_order_uuid)
             others_unpaid_order = room_order.room_order_part.filter(is_paid=False)
-            return bot.send_generic_message(self.user_sender_id, pay_for_others_order(room_order.name, others_unpaid_order, self.user.uuid))
+            return bot.send_generic_message(self.user_sender_id, pay_for_others_order(room_order, others_unpaid_order, self.user.uuid))
 
         elif self.postback_payload == "LOGIN":
             return send_account_link(self.user_sender_id)
@@ -162,4 +162,7 @@ class PostBackReceiver(Receiver):
 
         elif self.postback_payload == "CHANGE_ROOM_FEE":
             bot.send_generic_message(self.user_sender_id, change_room_fee_for_self(self.user))
+
+        elif self.postback_payload == "START_USE":
+            bot.send_button_message(self.user_sender_id, *intro_page(self.user))
 

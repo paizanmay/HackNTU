@@ -32,11 +32,25 @@
                                 房客名稱
                             </span>
                             <span class="ic-list__item-value">
-                                {{ user_name }}
+                                {{ order.tenant.name }}
                             </span>
                         </span>
                     </div>
                 </li>
+                {% if replace_pay_user != None %}
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
+                                代繳人名稱
+                            </span>
+                            <span class="ic-list__item-value">
+                                {{ replace_pay_user.name }}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                {% endif %}
                 <li class="ic-list__item">
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
@@ -56,7 +70,7 @@
                                 費用名稱
                             </span>
                             <span class="ic-list__item-value">
-                                {{ order_name }}
+                                {{ order.room_order.name }}
                             </span>
                         </span>
                     </div>
@@ -68,7 +82,7 @@
                                 付款金額
                             </span>
                             <span class="ic-list__item-value">
-                                {{ amount }}
+                                {{ order.amount }}
                             </span>
                         </span>
                     </div>
@@ -77,9 +91,9 @@
         </div>
     </section>
 
-    <form action="/tenant/tenant_pay_order_success/" method="POST">
+    <form action="/tenant/tenant_pay_order_success/" method="POST" id="pay_form">
     <section class="ic-section">
-        <h3 class="ic-section__title">信用卡資訊</h3>
+        <h3 class="ic-section__title">轉帳資訊</h3>
     
         <div class="ic-section__container">
             <ul class="ic-list ic-list--setting">
@@ -87,10 +101,11 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                信用卡號
+                                轉出代碼
                             </span>
                             <span class="ic-list__item-value">
-                                <input type="text" name="card_number" class="ic-input">
+                                {{pay_user.bank_code}}
+                                <input type="text" name="pay_bank_code" class="ic-input" value="{{pay_user.bank_code}}" style="visibility: hidden; width:0px;">
                             </span>
                         </span>
                     </div>
@@ -99,25 +114,11 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
-                                有效期限(月/年)
+                                轉出帳號
                             </span>
                             <span class="ic-list__item-value">
-                                <input type="number" class="ic-input ic-input--inline" style="width: 20px;">月
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number" class="ic-input ic-input--inline" style="width: 20px;">年
-                            </span>
-                        </span>
-                    </div>
-                </li>
-                <li class="ic-list__item">
-                    <div class="ic-list__item-container">
-                        <span class="ic-list__item-body">
-                            <span class="ic-list__item-label">
-                                安全碼
-                            </span>
-                            <span class="ic-list__item-value">
-                                <input type="number" class="ic-input">
+                                {{pay_user.bank_account}}
+                                <input type="text" name="pay_bank_account" class="ic-input" value="{{pay_user.bank_account}}" style="visibility: hidden; width:0px;">
                             </span>
                         </span>
                     </div>
@@ -135,7 +136,7 @@
                             <span class="ic-list__item-value">
                                     <button class="ic-btn ic-btn--blue" type="submit">確認</button>
                                     <input type="text" value="{{order_part_uuid}}" name="order_part_uuid" style="visibility: hidden; width:0px;">
-                                    <input type="text" value="{{replace_pay_user_uuid}}" name="replace_pay_user_uuid" style="visibility: hidden; width:0px;">
+                                    <input type="text" value="{{replace_pay_user.uuid}}" name="replace_pay_user_uuid" style="visibility: hidden; width:0px;">
                             </span>
                         </span>
                     </div>
@@ -144,8 +145,30 @@
         </div>
     </section>
     </form>
+
+<div class="ic-popup ic-popup--blue" id="popover" style="display:none;">
+    <div class="ic-popup__backdrop"></div>
+    <div class="ic-popup__container">
+        <div class="ic-popup__body">
+            <div class="ic-popup__icon">
+                <i class="ic-icon-loading ic-icon--large ic-icon--spin"></i>
+            </div>
+            <p class="ic-popup__message">
+                付款中...
+            </p>
+        </div>
+    </div>
+</div>
     
 <script type="text/javascript">
+$(document).ready(function(){
+    $("#pay_form").on('submit', function(){
+        $("#popover").show();
+        $("#pay_form").submit();
+    });
+
+});
+
 </script>
 
 </body>

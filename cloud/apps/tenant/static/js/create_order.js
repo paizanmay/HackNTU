@@ -128,7 +128,7 @@ createOrder.controller('changeRoomFeeCtrl', function($scope, $http, TenantUserRe
 
     $scope.submit = function() {
         $scope.isPopover = true;
-        $http.post('/tenant/api/change_room_fee', $scope.room).then(function(response){
+        $http.post('/tenant/api/change_room_fee', {'room': $scope.room, 'user_uuid': userUuid}).then(function(response){
             $scope.room = response;
             $scope.isSuccess = true;
         });

@@ -140,7 +140,7 @@
                                             房間名稱
                                         </span>
                                         <span class="ic-list__item-value">
-                                            <input type="text" ng-model="roomDetail.name" ng-blur="handleUpdate(roomDetail)">
+                                            <input class="ic-input" type="text" ng-model="roomDetail.name" ng-blur="handleUpdate(roomDetail)">
                                         </span>
                                     </span>
                                 </div>
@@ -152,7 +152,7 @@
                                             房租
                                         </span>
                                         <span class="ic-list__item-value">
-                                            <input type="number" ng-model="roomDetail.rental" ng-blur="handleUpdate(roomDetail)">
+                                            <input class="ic-input" type="number" ng-model="roomDetail.rental" ng-blur="handleUpdate(roomDetail)">
                                         </span>
                                     </span>
                                 </div>
@@ -164,7 +164,7 @@
                                             通知日期(每月幾號)
                                         </span>
                                         <span class="ic-list__item-value">
-                                            <input type="number" ng-model="roomDetail.notification_date" ng-blur="handleUpdate(roomDetail)">
+                                            <input class="ic-input" type="number" ng-model="roomDetail.notification_date" ng-blur="handleUpdate(roomDetail)">
                                         </span>
                                     </span>
                                 </div>
@@ -176,9 +176,37 @@
                                             繳費截止日期(每月幾號)
                                         </span>
                                         <span class="ic-list__item-value">
-                                            <input type="number" ng-model="roomDetail.deadline_date" ng-blur="handleUpdate(roomDetail)">
+                                            <input class="ic-input" type="number" ng-model="roomDetail.deadline_date" ng-blur="handleUpdate(roomDetail)">
                                         </span>
                                     </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="ic-section">
+                    <div class="ic-section__container">
+                        <ul class="ic-list ic-list--setting">
+                            <li class="ic-list__item">
+                                <div class="ic-button-group">
+                                    <button class="ic-button ic-button--solid ic-button--red" ng-click="sendPayment()">
+                                        <div class="ic-flex-layout ic-flex-layout--center">
+                                            <div class="ic-flex-cell">
+                                                <div class="ic-text-layout">
+                                                    <div class="ic-text-layout__body">
+                                                        <div class="ic-text-layout__basic">
+                                                            <div class="ic-flex-layout">
+                                                                <div class="ic-flex-cell">
+                                                                    提醒繳費
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
                                 </div>
                             </li>
                         </ul>
@@ -193,7 +221,7 @@
                             <li class="ic-list__item">
                                 <div class="ic-list__item-container">
                                     <span class="ic-list__item-body">
-                                        <div id="room_qrcode"></div>
+                                        <div id="room_qrcode" style="margin:auto;"></div>
                                     </span>
                                 </div>
                             </li>

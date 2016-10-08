@@ -151,7 +151,7 @@ class PostBackReceiver(Receiver):
             room = Room.objects.get(uuid=room_uuid)
             self.user.live_room = room
             self.user.save()
-            bot.send_text_message(self.user_sender_id, "入住成功")
+            bot.send_button_message(self.user_sender_id, *intro_page(self.user))
             return send_payment_page(self.user_sender_id, self.user.live_room.uuid, self.user.uuid)
 
         elif self.postback_payload == "PAY_RENT":
@@ -164,5 +164,6 @@ class PostBackReceiver(Receiver):
             bot.send_generic_message(self.user_sender_id, change_room_fee_for_self(self.user))
 
         elif self.postback_payload == "START_USE":
-            bot.send_button_message(self.user_sender_id, *intro_page(self.user))
+            # bot.send_button_message(self.user_sender_id, *intro_page(self.user))
+            bot.send_text_message(self.user_sender_id, "還未入住房間，請上傳房間QRCode來辦理入住")
 

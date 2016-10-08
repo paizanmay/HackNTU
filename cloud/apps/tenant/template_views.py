@@ -100,9 +100,11 @@ def tenant_pay_order_success(request):
     order_part.paid_bank_code = pay_bank_account
 
     replace_pay_user = None
-    if replace_pay_user_uuid != "None":
+    try:
         replace_pay_user = TenantUser.objects.get(uuid=replace_pay_user_uuid)
         order_part.replace_pay_user = replace_pay_user
+    except:
+        print('No replace user')
     order_part.save()
 
     pay_user = order_part.tenant if replace_pay_user is None else replace_pay_user

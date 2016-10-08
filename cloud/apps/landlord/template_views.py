@@ -16,7 +16,10 @@ class login_require(object):
         self.func = func
 
     def __call__(self, request, *args, **kwargs):
-        user_uuid = request.session['user_id']
+        try:
+            user_uuid = request.session['user_id']
+        except Exception:
+            return render_to_response("landlord/login_user.html")
         user = LandlordUser.objects.get(uuid=user_uuid)
         request.user = user
         return self.func(request, *args, **kwargs)
@@ -26,7 +29,6 @@ def manage_room(request):
     return_data = {
         "host": request.META['HTTP_HOST']
     }
-    print('testestse')
     return render_to_response("landlord/manage_room.html", return_data)
 
 @csrf_exempt

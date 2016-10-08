@@ -12,7 +12,7 @@ bot = Bot(settings.PAGE_ACCESS_TOKEN)
 SERVER_URL = settings.SERVER_URL
 
 def intro_page(user):
-    title = "%s您好，歡迎使用懶交！ \n請先設定你的銀行帳號才可以繳款喔！" % user.name
+    title = "%s您好，歡迎使用懶交！ \n您已入住成功，請先設定你的銀行帳號才可以繳款喔！" % user.name
     buttons = [
         {
             "type":"web_url",

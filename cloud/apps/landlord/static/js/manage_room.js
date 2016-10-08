@@ -24,7 +24,7 @@ manageRoom.factory('RoomResource', function($apiResource) {
 });
 
 
-manageRoom.controller('ManageRoomCtrl', function($scope, RoomResource) {
+manageRoom.controller('ManageRoomCtrl', function($scope, $http, RoomResource) {
 	function init() {
 		$scope.roomList = [];
 		$scope.roomDetail = {};
@@ -63,6 +63,33 @@ manageRoom.controller('ManageRoomCtrl', function($scope, RoomResource) {
 		RoomResource.partial_update({'uuid': roomJson.uuid}, roomJson).$promise.then(function(response){
 			$scope.roomDetail = response;
 		})
+	}
+
+	$scope.sendPayment = function() {
+		var data = {
+			'order_detail': {},
+			'tenant_allocation': [],
+			'user': $scope.roomDetail.landlord_user,
+		};
+
+		for(var key in $scope.roomDetail.tenant_user) {
+			var tenant_user = $scope.roomDetail.tenant_user[key];
+			data['tenant_allocation'].push({
+				'amount': tenant_user.live_room_amount,
+				'uuid': tenant_user.uuid
+			});
+		}
+
+		data['order_detail'] = {
+			'room': $scope.roomDetail.uuid,
+			'order_type': 0,
+			'amount': $scope.roomDetail.rental,
+		}
+
+		$http.post('/landlord/api/room_order', data).then(function(response){
+			console.log('ok')
+		});
+
 	}
 
 	init();

@@ -42,7 +42,11 @@ class RoomOrderViewSet(APIView):
 
         room = Room.objects.get(uuid=order_detail["room"])
         order_detail["room"] = room
-        create_user = TenantUser.objects.get(uuid=user["uuid"])
+        try:
+            create_user = TenantUser.objects.get(uuid=user["uuid"])
+        except:
+            create_user = LandlordUser.objects.get(uuid=user["uuid"])
+
         order = RoomOrder(**order_detail)
         order.create_user = create_user
         order.paid_bank_code = user["bank_code"]

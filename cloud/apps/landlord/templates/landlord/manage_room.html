@@ -58,7 +58,7 @@
                                         </span>
                                         <span class="ic-list__item-label">
                                             {$ room.address $}
-                                            <span class="ic-label ic-label--green" ng-if="($index % 2) == 1">繳費成功</span>
+                                            <span class="ic-label ic-label--green" ng-if="room.is_paid">費用全部繳清</span>
                                         </span>
                                     </span>
                                     <span class="ic-list__item-right">
@@ -88,7 +88,7 @@
 
             <div id="ic-slideview-demo__cell2" class="ic-slideview-demo__cell ic-slideview__cell" ng-class="{'ic-slideview__cell--next':currentPage==0, 'ic-slideview__cell--active':currentPage==1}">
                 <div class="ic-header">
-                    <h1 class="ic-header__title">房間詳細資訊</h1>
+                    <h1 class="ic-header__title">房間詳細資訊<span class="ic-label ic-label--green" ng-if="roomDetail.is_paid">費用全部繳清</span></h1>
                 
                     <div class="ic-header__left" ng-click="changePage(0)">
                         <button class="ic-header__btn">
@@ -228,6 +228,48 @@
                         </ul>
                     </div>
                 </section>
+
+                <section class="ic-section">
+                    <h3 class="ic-section__title">費用列表</h3>
+                
+                    <div class="ic-section__container">
+                        <ul class="ic-list ic-list--setting">
+                            <li class="ic-list__item" ng-repeat="order in orderList">
+                                <div class="ic-list__item-container">
+                                    <span class="ic-list__item-body">
+                                        <span class="ic-list__item-label">
+                                            {$ order.name $}
+                                            <div class="ic-text-layout__aside">
+                                                名稱
+                                            </div>
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            {$ order.amount $}
+                                            <div class="ic-text-layout__aside">
+                                                金額
+                                            </div>
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            {$ order.deadline $}
+                                            <div class="ic-text-layout__aside">
+                                                截止日
+                                            </div>
+                                        </span>
+                                        <span class="ic-list__item-value">
+                                            <div class="ic-text-layout__aside" ng-if="order.is_paid">
+                                                <span class="ic-label ic-label--green">已付款</span>
+                                            </div>
+                                            <div class="ic-text-layout__aside" ng-if="!order.is_paid">
+                                                <span class="ic-label ic-label--red">未付款</span>
+                                            </div>
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
             </div>
 
 

@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from apps.landlord.apis.serializers import RoomSerializer, RoomDetailSerializer
+from apps.landlord.apis.serializers import RoomSerializer, RoomDetailSerializer, RoomOrderSerializer
 from apps.landlord.models import *
 from apps.tenant.models import TenantUser
 from apps.fb_bot.sender import *
@@ -62,6 +62,14 @@ class RoomOrderViewSet(APIView):
         send_create_order_signal(order)
 
         return Response("OK")
+
+    def get(self, request):
+        room_uuid = request.GET.get("room_uuid")
+        room_order_list = RoomOrder.objects.filter(room__uuid=room_uuid)
+
+        serializers = RoomOrderSerializer(room_order_list, many=True)
+
+        return Response(serializers.data)
 
 
 

@@ -51,11 +51,16 @@ manageRoom.controller('ManageRoomCtrl', function($scope, $http, RoomResource) {
 	}
 
 	$scope.detailPage = function(detailUUID) {
+		$scope.orderList = [];
 		RoomResource.get({'uuid': detailUUID}).$promise.then(function(response){
 			$scope.roomDetail = response;
 			$scope.changePage(1);
 			$("#room_qrcode").html("");
 			new QRCode(document.getElementById("room_qrcode"), detailUUID);
+		});
+
+		$http.get('/landlord/api/room_order?room_uuid=' + detailUUID).then(function(response){
+			$scope.orderList = response.data;
 		});
 	}
 

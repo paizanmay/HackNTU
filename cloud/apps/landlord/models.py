@@ -10,6 +10,7 @@ from enum import IntEnum
 
 from apps.fb_bot.bot import bot
 from apps.fb_bot.template import *
+from apps.fb_bot.apis import *
 
 
 def generate_uuid():
@@ -20,8 +21,9 @@ class LandlordUser(AbstractBaseUser):
     uuid = models.CharField(max_length=36L, default=generate_uuid)
     username = models.CharField(unique=True, max_length=100, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
-    bank_code = models.CharField(max_length=3L, null=True, blank=True)
-    bank_account = models.CharField(max_length=100L, null=True, blank=True)
+    cust_id = models.CharField(max_length=30, default="G299287769", blank=True)
+    bank_code = models.CharField(max_length=3L, default="822", blank=True)
+    bank_account = models.CharField(max_length=50L, default="0000901549904116", blank=True)
 
     USERNAME_FIELD = "username"
 
@@ -103,14 +105,18 @@ def check_order_paid(instance, **signal_kwargs):
             order_name = instance.room_order.name
             user_name = instance.tenant.name
 
+            pay_user = instance.tenant if is_paid_by_replace is False else instance.replace_pay_user
+            ctbc = CtbcAPI(pay_user)
+            account_amount = ctbc.get_account_amount()
+
             if is_paid_by_replace is False:
-                success_msg = "{order_name}:付款成功".format(order_name=order_name)
+                success_msg = "{order_name}:付款成功 (餘額: {amount})".format(order_name=order_name, amount=account_amount)
                 bot.send_text_message(instance.tenant.sender_id, success_msg)
             else:
                 pay_user_name = instance.replace_pay_user.name
                 success_msg = "{order_name}:{pay_user_name}已代替您繳款".format(order_name=order_name, pay_user_name=pay_user_name, user_name=user_name)
                 bot.send_text_message(instance.tenant.sender_id, success_msg)
-                replace_success_msg = "{order_name}:您已代替{user_name}繳款成功".format(order_name=order_name, user_name=user_name)
+                replace_success_msg = "{order_name}:您已代替{user_name}繳款成功 (餘額: {amount})".format(order_name=order_name, user_name=user_name, amount=account_amount)
                 bot.send_text_message(instance.replace_pay_user.sender_id, replace_success_msg)
     else:
         instance.is_new_order = True

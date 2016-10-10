@@ -45,6 +45,18 @@
                     <div class="ic-list__item-container">
                         <span class="ic-list__item-body">
                             <span class="ic-list__item-label">
+                                身分證號
+                            </span>
+                            <span class="ic-list__item-value" style="max-width:65%;">
+                                <input type="text" ng-model="user.custID" class="ic-input">
+                            </span>
+                        </span>
+                    </div>
+                </li>
+                <li class="ic-list__item">
+                    <div class="ic-list__item-container">
+                        <span class="ic-list__item-body">
+                            <span class="ic-list__item-label">
                                 銀行代碼
                             </span>
                             <span class="ic-list__item-value" style="max-width:65%;">
@@ -109,6 +121,7 @@
 var user = {
     'uuid': '{{user.uuid}}',
     'name': '{{user.name}}',
+    'custID': '{{user.cust_id}}',
     'bankCode': '{{user.bank_code}}',
     'bankAccount': '{{user.bank_account}}'
 }

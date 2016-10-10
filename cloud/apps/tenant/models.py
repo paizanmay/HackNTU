@@ -28,8 +28,9 @@ class TenantUser(AbstractBaseUser):
     live_room = models.ForeignKey("landlord.Room", null=True, on_delete=models.SET_NULL, related_name='tenant_user')
     live_room_amount = models.IntegerField(default=0)
 
-    bank_code = models.CharField(max_length=3L, blank=True)
-    bank_account = models.CharField(max_length=50L, blank=True)
+    cust_id = models.CharField(max_length=30, default="C199063165", blank=True)
+    bank_code = models.CharField(max_length=3L, default="822", blank=True)
+    bank_account = models.CharField(max_length=50L, default="0000107549900069", blank=True)
 
     USERNAME_FIELD = "username"
 

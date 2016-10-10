@@ -11,6 +11,7 @@ import requests
 
 from apps.tenant.models import TenantUser
 from apps.landlord.models import *
+from apps.fb_bot.apis import CtbcAPI
 
 def register_room(request):
     user_id = request.GET.get("user_id")
@@ -111,6 +112,10 @@ def tenant_pay_order_success(request):
 
     landlord = order_part.room_order.room.landlord_user
 
+    ctbc = CtbcAPI(pay_user)
+    transfer = ctbc.transfer(landlord, order_part.amount, order_part.room_order.name)
+    account_amount = ctbc.get_account_amount()
+
     return_data = {
         "order": order_part,
         "landlord": landlord,
@@ -118,7 +123,8 @@ def tenant_pay_order_success(request):
         "amount": order_part.amount,
         "user_name": order_part.tenant.name,
         "card_number": order_part.card_number,
-        "order_part_uuid": order_part_uuid
+        "order_part_uuid": order_part_uuid,
+        "account_amount": account_amount
     }
 
     return render_to_response("tenant/tenant_pay_order_success.html", return_data)

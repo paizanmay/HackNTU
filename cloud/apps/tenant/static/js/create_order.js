@@ -95,6 +95,7 @@ createOrder.controller('accountSettingCtrl', function($scope, $http, TenantUserR
     $scope.submit = function() {
         $scope.isPopover = true;
         var data = {
+            'cust_id': $scope.user.custID,
             'bank_code': $scope.user.bankCode,
             'bank_account': $scope.user.bankAccount
         };

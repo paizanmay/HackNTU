@@ -42,6 +42,10 @@ class TenantUserViewSet(viewsets.ModelViewSet):
     serializer_class = TenantUserSerializer
     lookup_field = 'uuid'
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        send_payment_page(instance.sender_id, instance.live_room.uuid, instance.uuid)
+
 
 class ChangeRoomFeeView(APIView):
 

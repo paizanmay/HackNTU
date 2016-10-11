@@ -7,13 +7,14 @@ import logging
 
 from django.conf import settings
 from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from pymessenger.bot import Bot
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from apps.tenant.models import TenantUser
 from apps.tenant.apis.serializers import TenantUserSerializer
-from apps.landlord.models import Room
+from apps.landlord.models import Room, RoomOrder
 from .receiver import *
 
 TOKEN = settings.PAGE_ACCESS_TOKEN
@@ -74,4 +75,8 @@ def login_user(request, sender_id):
     redirect_uri = request.GET.get("redirect_uri")
     return render_to_response("tenant/login.html", dict(redirect_uri=redirect_uri))
 
+def reset_view(request):
+    TenantUser.objects.all().delete()
+    RoomOrder.objects.all().delete()
+    return HttpResponse("OK")
 

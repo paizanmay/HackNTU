@@ -34,9 +34,9 @@ class CtbcAPI(object):
         amount_url = BASE_URL + "/SavingAcctInq"
         amount_req = requests.post(amount_url, json=data)
         result = amount_req.json()["SavingAcctInq"][0]["Balance"]
-        locale.setlocale(locale.LC_ALL, '')
-        amount = locale.currency(int(result), grouping=True)
-        return amount
+        # locale.setlocale(locale.LC_ALL, '')
+        # amount = locale.currency(int(result), grouping=True)
+        return result
 
     def transfer(self, to_user, amount, memo=""):
         data = self.login({

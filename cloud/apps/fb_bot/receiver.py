@@ -151,8 +151,7 @@ class PostBackReceiver(Receiver):
             room = Room.objects.get(uuid=room_uuid)
             self.user.live_room = room
             self.user.save()
-            bot.send_button_message(self.user_sender_id, *intro_page(self.user))
-            return send_payment_page(self.user_sender_id, self.user.live_room.uuid, self.user.uuid)
+            return bot.send_button_message(self.user_sender_id, *intro_page(self.user))
 
         elif self.postback_payload == "PAY_RENT":
             return send_payment_page(self.user_sender_id, self.user.live_room.uuid, self.user.uuid)

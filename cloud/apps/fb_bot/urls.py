@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^webhook', BotWebhook.as_view()),
     url(r'^authorize/(?P<sender_id>[-\w]+)', login_user),
+    url(r'^reset', reset_view),
 ]

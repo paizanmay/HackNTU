@@ -16,7 +16,7 @@ def intro_page(user):
     buttons = [
         {
             "type":"web_url",
-            "title":"設定銀行帳號",
+            "title":"💰設定銀行帳號",
             "url": SERVER_URL + "/tenant/setting_account_page?user_uuid=" + user.uuid
         }
     ]
@@ -27,17 +27,17 @@ def welcome_page(room_uuid, user_uuid):
     buttons = [
         {
             "type":"postback",
-            "title":"我要繳哪些錢",
+            "title":"💵 我要繳哪些錢",
             "payload":"TENANT_WANT_TO_PAY_ORDER"
         },
         {
             "type":"postback",
-            "title":"大家繳費了沒",
+            "title":"🔎 大家繳費了沒",
             "payload":"DID_OTHER_PAY_ORDER"
         },
         {
             "type":"web_url",
-            "title":"新增待繳費用",
+            "title":"✚ 新增待繳費用",
             "url": SERVER_URL + "/tenant/create_order_page/?room_uuid=%s&user_uuid=%s" % (room_uuid, user_uuid)
         }
     ]
@@ -76,7 +76,7 @@ def rent_order_simple(order):
         "buttons": [{
             "type": "web_url",
             "url": SERVER_URL + "/tenant/tenant_pay_order_page/" + order.uuid,
-            "title": "我要繳費"
+            "title": "💳 我要繳費"
         }]
     }
     return msg
@@ -89,7 +89,7 @@ def rent_order_with_name(title, paid_name, unpaid_name, deadline, room_order_uui
         "buttons": [
             {
                 "type":"postback",
-                "title":"我要代繳",
+                "title":"👼 我要代繳",
                 "payload":"PAY_FOR_OTHER$%s" % room_order_uuid
             }
         ]
@@ -99,7 +99,7 @@ def rent_order_with_name(title, paid_name, unpaid_name, deadline, room_order_uui
             {
                 "type": "web_url",
                 "url": SERVER_URL + "/tenant/tenant_pay_order_page/" + user_order_uuid,
-                "title": "我要繳費"
+                "title": "💳 我要繳費"
             }
         )
 
@@ -133,7 +133,7 @@ def pay_new_order(order, create_user):
         msg["buttons"] = [
             {
                 "type":"web_url",
-                "title":"前往繳費 $%s" % order.amount,
+                "title":"💳 前往繳費 $%s" % order.amount,
                 "url": SERVER_URL + "/tenant/tenant_pay_order_page/%s" % order.uuid
             }
         ]
@@ -165,7 +165,7 @@ def change_room_fee_for_other_in(moved_user, leave_user):
         "buttons": [
             {
                 "type":"web_url",
-                "title":"我要調整",
+                "title":"🔎 我要調整",
                 "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (leave_user.live_room.uuid, leave_user.uuid)
             }
         ]
@@ -181,7 +181,7 @@ def change_room_fee_for_other_out(moved_user, leave_user):
         "buttons": [
             {
                 "type":"web_url",
-                "title":"我要調整",
+                "title":"🔎 我要調整",
                 "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (leave_user.live_room.uuid, leave_user.uuid)
             }
         ]
@@ -197,7 +197,7 @@ def change_room_fee_for_self(user):
         "buttons": [
             {
                 "type":"web_url",
-                "title":"我要調整",
+                "title":"🔎 我要調整",
                 "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (user.live_room.uuid, user.uuid)
             }
         ]
@@ -217,7 +217,7 @@ def change_room_fee_result(create_user, user_list):
     buttons = [
         {
             "type":"web_url",
-            "title":"我要調整",
+            "title":"🔎 我要調整",
             "url":SERVER_URL + "/tenant/change_room_fee_page/?room_uuid=%s&user_uuid=%s" % (create_user.live_room.uuid, create_user.uuid)
         }
     ]

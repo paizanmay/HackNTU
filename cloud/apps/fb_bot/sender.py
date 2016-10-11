@@ -29,6 +29,12 @@ def send_account_link(sender_id):
     return bot.send_generic_message(sender_id, register_user_page(sender_id))
 
 def send_payment_page(sender_id, room_uuid, user_uuid):
+    msg = {
+        "title": "懶交 RentJiao",
+        "subtitle": "你的租屋繳費小幫手",
+        "image_url": OrderImage.logo,
+    }
+    bot.send_generic_message(sender_id, [msg])
     return bot.send_button_message(sender_id, *welcome_page(room_uuid, user_uuid))
 
 def send_change_room_fee_result(create_user, room):
